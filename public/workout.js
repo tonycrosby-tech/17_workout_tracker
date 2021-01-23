@@ -6,9 +6,11 @@ async function initWorkout() {
       .querySelector("a[href='/exercise?']")
       .setAttribute("href", `/exercise?id=${lastWorkout._id}`);
 
+    let totalDuration = duration(lastWorkout);
+
     const workoutSummary = {
       date: formatDate(lastWorkout.day),
-      totalDuration: lastWorkout.totalDuration,
+      totalDuration: totalDuration,
       numExercises: lastWorkout.exercises.length,
       ...tallyExercises(lastWorkout.exercises)
     };
@@ -80,5 +82,16 @@ function renderNoWorkoutText() {
   p.appendChild(strong);
   container.appendChild(p);
 }
+
+function duration(data) {
+  let durations = [];
+
+  data.exercises.forEach(exercise => {
+      durations.push(parseInt(exercise.duration));
+    });
+
+  return durations.reduce((total, duration) => total + duration);
+}
+
 
 initWorkout();
