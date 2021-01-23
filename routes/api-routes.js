@@ -41,23 +41,14 @@ router.get("/api/workouts", (req, res) => {
 });
 
 router.get("/api/workouts/range", (req, res) => {
-  // console.log(req);
-  // let oneWeek = new Date();
-  // oneWeek.setDate(new Date().getDate() - 7);
-  // oneWeek.setHours(0,0,0);
 
-  // console.log(oneWeek, new Date());
-
-  let dayOfWeek = new Date().getDay();     //  For offset since Sunday...
+  let dayOfWeek = new Date().getDay();
   let lastSunday = new Date()
   lastSunday.setDate(new Date().getDate() - dayOfWeek);
   lastSunday.setHours(0, 0, 0);
 
-  // console.log(lastSunday);
-
   Workout.find({ "day": { $gte: lastSunday }})
     .then(data => { 
-      // console.log(data);
       res.json(data) 
     })
     .catch(err => { res.status(400).json(err) });
